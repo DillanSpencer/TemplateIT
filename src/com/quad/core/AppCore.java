@@ -30,7 +30,7 @@ public class AppCore {
 		}
 
 		// create new window object
-		 Window window = new Window(640, 480, "Auto Folder");
+		 Window window = new Window(640, 480, "TemplateIT - Project Orginization");
 		
 	}
 

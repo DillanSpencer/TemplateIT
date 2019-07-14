@@ -34,9 +34,11 @@ import com.quad.system.Writer;
 public class Window {
 
 	/*
-	 * This Class creates the window for our application It creates a frame that is
-	 * the outside of the window It creates a panel that is the inside of the window
-	 * that controls all of the content
+	 * This Class creates the window for our application. It creates a frame that is
+	 * the outside of the window.
+	 *  It creates a panel that is the inside of the window
+	 * that controls all of the content.
+	 * Handles the backend of the program
 	 */
 
 	// Frame for the widow
@@ -54,7 +56,8 @@ public class Window {
 	private JMenuItem saveItem;
 	private JMenuItem export;
 	JFileChooser jfc;
-
+	
+	//holds information on which folder you are currently in
 	private Stack<Folder> folders;
 
 	// button
@@ -62,6 +65,7 @@ public class Window {
 	private Image folderImage;
 
 	public Window(int width, int height, String title) {
+		
 		// create window
 		frame = new JFrame(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,18 +79,19 @@ public class Window {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 
-		// load images
+		// load images (folder)
 		try {
 			folderImage = ImageIO.read(getClass().getResourceAsStream("/folder.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// create root folder
+		// create root folder that will conatin all of the folders
 		root = new Folder("Original Folder");
 		root.setParentFolder(root);
 		txt = "Original Folder";
 
+		//create stack
 		folders = new Stack<Folder>();
 		folders.push(root);
 
@@ -117,6 +122,8 @@ public class Window {
 				handleExport();
 			}
 		});
+		
+		//add all of the menu items to the menu
 		file.add(newItem);
 		file.add(openItem);
 		file.add(saveItem);
@@ -125,11 +132,13 @@ public class Window {
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 
+		//create panels in the frame
 		createTitlePanel();
 		createFlowPanel();
 		createFolderView();
 	}
 
+	//panel where all of the folders will be displayed
 	private void createFlowPanel() {
 		flowPanel = new JPanel(new GridLayout(3, 3));
 		flowPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -138,6 +147,7 @@ public class Window {
 		frame.pack();
 	}
 
+	//panel for the name of the folder and the back button
 	private void createTitlePanel() {
 		textPanel = new JPanel(new FlowLayout());
 		textPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -158,6 +168,7 @@ public class Window {
 		frame.pack();
 	}
 
+	//panel that holds the new folder button
 	private void createFolderView() {
 		JPanel folderPanel = new JPanel(new BorderLayout());
 		folderPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -182,6 +193,7 @@ public class Window {
 		frame.pack();
 	}
 
+	//handles what happens when a folder is pressed
 	private void handleButton(JButton button, Folder f) {
 		button.addActionListener(new ActionListener() {
 
@@ -193,6 +205,7 @@ public class Window {
 		});
 	}
 
+	//saves the folders to a template file
 	private void handleSave() {
 		jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -204,6 +217,7 @@ public class Window {
 		}
 	}
 
+	//displays the contents of a single folder
 	private void display(Folder folder) {
 		txt = folder.getName();
 		flowPanel.removeAll();
@@ -219,6 +233,7 @@ public class Window {
 		frame.pack();
 	}
 
+	//deletes all of the content from root folder
 	private void handleNew() {
 		for (int i = 0; i < root.getSubFolders().size(); i++) {
 			root.getSubFolders().remove(i);
@@ -227,6 +242,7 @@ public class Window {
 		frame.pack();
 	}
 
+	//imports root folder from template file
 	private void handleImport() {
 		Reader reader = new Reader();
 		jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -240,10 +256,12 @@ public class Window {
 		}
 	}
 
+	//loads buttons from template file
 	private void loadButtons() {
 		loadButtonsRedcursive(root);
 	}
 
+	//recursively searches through all of the files and creates a new button for them
 	private void loadButtonsRedcursive(Folder f) {
 		JButton buttn = new JButton(f.getName());
 		buttn.setIcon(new ImageIcon(folderImage));
@@ -260,6 +278,7 @@ public class Window {
 		}
 	}
 
+	//handles exporting the folders to a directory
 	private void handleExport() {
 		jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
