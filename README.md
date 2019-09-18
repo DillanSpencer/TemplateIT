@@ -1,7 +1,7 @@
 # TemplateIT
 > Project Orginization Tool
 
-__TemplateIT__ makes it easy to keep projects clean and orginized with project templates. It allows users to create a template project folder that can be exported to a directory.
+__TemplateIT__ makes it easy to keep projects clean and orginized with project templates. It allows users to create a template project folder that can be exported to a directory. This program can be used to make video editing organized with templated folders for all of the users resources. 
 
 
 ## Main Classes
