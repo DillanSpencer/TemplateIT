@@ -235,9 +235,7 @@ public class Window {
 
 	//deletes all of the content from root folder
 	private void handleNew() {
-		for (int i = 0; i < root.getSubFolders().size(); i++) {
-			root.getSubFolders().remove(i);
-		}
+		root.getSubFolders().removeAll(root.getSubFolders());
 		display(root);
 		frame.pack();
 	}
